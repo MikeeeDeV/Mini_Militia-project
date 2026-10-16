@@ -94,30 +94,26 @@ mkdir -p dist
 apktool b decompiled_app -o dist/MiniMilitia-ModernAndroidCompatibility-1.apk
 ```
 
-### Step 3: Cryptographic Signing
-Generate a production Keystore (if not already present) and sign the binary:
+### Step 3: Cryptographic Signing & Alignment
+Modern Android operating systems (Android 11 through 15) strictly enforce 4-byte uncompressed alignment for `resources.arsc` and require APK Signature Scheme v2 or v3. Use `uber-apk-signer` (or `zipalign` + `apksigner`):
+
 ```bash
-# 1. Keystore Generation (2048-bit RSA)
-keytool -genkey -v -keystore minimilitia-release.jks \
-  -keyalg RSA -keysize 2048 -validity 10000 \
-  -alias minimilitia -storepass android123 -keypass android123
-
-# 2. Cryptographic Signature
-jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 \
-  -keystore minimilitia-release.jks -storepass android123 \
-  dist/MiniMilitia-ModernAndroidCompatibility-1.apk minimilitia
-
-# 3. Verification
-jarsigner -verify -verbose -certs dist/MiniMilitia-ModernAndroidCompatibility-1.apk
+# Production Signing and 4-byte Page Alignment
+uber-apk-signer -a dist/MiniMilitia-120FPS-StatsDisplay-3.apk \
+  --ks minimilitia-release.jks --ksAlias minimilitia \
+  --ksPass android123 --ksKeyPass android123 \
+  --allowResign --overwrite --verbose
 ```
 
 ---
 
 ## 5. Releases and Verified Artifacts
 
-| Release Tag | Binary Name | SHA-256 Hash | Target SDK |
-| :--- | :--- | :--- | :--- |
-| **v4.2.8-compat.1** | `MiniMilitia-ModernAndroidCompatibility-1.apk` | `789ad38a4f5810df0f891b909ae5fa55e73f13ec27f62678dbd50be2283e7e21` | Android 13 (API 33) |
+| Attempt | Release Tag | Binary Name | Status / Highlights | SHA-256 Hash |
+| :--- | :--- | :--- | :--- | :--- |
+| **Attempt 1** | `v4.2.8-compat.1` | `MiniMilitia-ModernAndroidCompatibility-1.apk` | Initial Target SDK 33 update (Missing v2/v3 signature & zipalign) | `789ad38a4f5810df0f891b909ae5fa55e73f13ec27f62678dbd50be2283e7e21` |
+| **Attempt 2** | `v4.2.8-compat.2` | `MiniMilitia-ModernAndroidCompatibility-2.apk` | Resolved Android 11-15 install (4-byte zipalign + v1, v2, v3 signed) | `63f2b8d94db21e5dedae7ee882d3a5ad9b710c3640b78f9f19a1ef3d924d9875` |
+| **Attempt 3** | `v4.2.8-fps.3` | `MiniMilitia-120FPS-StatsDisplay-3.apk` | Unlocked 120 FPS high refresh rate + Live in-game FPS HUD overlay | `90b890524ecb8c8d748d6dd12966800b15945b97cead34bffbba457b4c9a9822` |
 
 Download the verified prebuilt packages directly from [GitHub Releases](https://github.com/MikeeeDeV/apk-project/releases).
 
