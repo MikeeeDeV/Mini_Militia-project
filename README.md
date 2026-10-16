@@ -1,52 +1,133 @@
-# APK Project - Android Reverse Engineering & Modification
+# Mini Militia (Doodle Army 2) Modernization Workspace
 
-A dedicated workspace for decompiling, modifying, rebuilding, and signing Android APK packages on Ubuntu Linux.
+<p align="left">
+  <img src="https://img.shields.io/badge/Target_SDK-33_(Android_13)-3DDC84?style=for-the-badge&logo=android&logoColor=white" alt="Target SDK" />
+  <img src="https://img.shields.io/badge/Platform-Android_12_/_13_/_14_/_15-brightgreen?style=for-the-badge&logo=android&logoColor=white" alt="Platform" />
+  <img src="https://img.shields.io/badge/Engine-Cocos2d--x_C++-blue?style=for-the-badge" alt="Engine" />
+  <img src="https://img.shields.io/badge/ABI-armeabi--v7a-orange?style=for-the-badge" alt="ABI" />
+  <img src="https://img.shields.io/badge/Apktool-v2.7.0-purple?style=for-the-badge" alt="Apktool" />
+  <img src="https://img.shields.io/badge/Workflow-GitHub_PR_&_Review-blueviolet?style=for-the-badge&logo=github&logoColor=white" alt="Workflow" />
+</p>
 
-## 🎯 Current Target Application
-- **App**: Mini Militia (Doodle Army 2)
-- **Package**: `com.appsomniacs.da2`
-- **Version**: 4.2.8 (Build 265)
-- **Engine**: Cocos2d-x (C++)
-
----
-
-## 📋 Mandatory Repository Workflow Rules
-
-To maintain high development quality, documentation integrity, and clear historical tracking, this project strictly adheres to the following workflow rules for **every change**:
-
-1. **Issue Tracking**: Every task, feature, bug fix, or mod must have **one or more GitHub Issues** created first to describe the objective and scope.
-2. **Branch per Feature**: Direct commits to `main` are strictly forbidden. All work must be conducted on a dedicated branch (e.g., `feature/<name>`, `mod/<name>`, `fix/<name>`).
-3. **Pull Request (PR)**: Merging into `main` requires a Pull Request referencing the corresponding issue(s) (e.g., `Closes #1`).
-4. **GitHub Code Review**: Every PR must undergo and record a documented code review on GitHub detailing the analysis, testing, and approval.
+An engineering workspace dedicated to the reverse engineering, modernization, and runtime compatibility preservation of **Doodle Army 2: Mini Militia v4.2.8**.
 
 ---
 
-## 🛠️ Tooling & Prerequisites
+## 1. Technical Specifications
 
-- **Apktool**: `2.7.0+`
-- **Java Development Kit**: OpenJDK 17 (`openjdk-17-jdk` / `default-jdk`)
-- **Keytool & Jarsigner**: For Keystore generation and cryptographic signing
-- **GitHub CLI (`gh`)**: For issue management, pull requests, and code reviews
+| Parameter | Baseline Value | Modernized Value | Notes |
+| :--- | :--- | :--- | :--- |
+| **Package Name** | `com.appsomniacs.da2` | `com.appsomniacs.da2` | Preserved for local LAN discovery |
+| **Version Name** | `4.2.8` | `4.2.8` | Classic Appsomniacs golden era |
+| **Version Code** | `265` | `265` | Native build identifier |
+| **Target SDK** | `26` (Android 8.0) | `33` (Android 13.0) | Prevents modern OS install blocks |
+| **Minimum SDK** | `16` (Android 4.1) | `16` (Android 4.1) | Full backward compatibility |
+| **Display Aspect** | `2.1` (Max Aspect) | `2.4` + Resizable | Edge-to-edge support for 20:9 displays |
+| **Cleartext Traffic** | System Default (Blocked) | `true` (Explicit) | Allows local Wi-Fi Hotspot LAN play |
+| **Exported Components** | Implicit | Explicit (`true` / `false`) | Android 12+ security standard compliance |
+| **Native Engine** | Cocos2d-x (C++) | Cocos2d-x (C++) | `libcocos2dcpp.so` (12.8 MB) |
+| **Native Architecture** | `armeabi-v7a` (32-bit ARM) | `armeabi-v7a` (32-bit ARM) | Requires 32-bit compatible hardware/ROM |
 
 ---
 
-## 🚀 Quick Workflow Reference
+## 2. Modern Android Compatibility Patches
 
-### 1. Decompilation
-```bash
-apktool d <app_name>.apk -o decompiled_app
+Legacy APK builds compiled for Android 8 fail during installation or runtime on modern operating systems (Android 12, 13, 14, and 15). The following structural patches have been applied directly to the decompiled manifest and package metadata:
+
+### A. Android 12+ Explicit Component Export
+Android 12 (API level 31) introduced a mandatory requirement that any activity, receiver, or service containing an `<intent-filter>` must explicitly declare `android:exported="true"` or `android:exported="false"`. Failure to declare this attribute results in `INSTALL_PARSE_FAILED_MANIFEST_MALFORMED`.
+* Patched `com.appsomniacs.da2.MiniMilitiaActivity` to `android:exported="true"`.
+* Patched `com.appsomniacs.da2.DA2Activity` to `android:exported="true"`.
+* Patched `com.tapjoy.TapjoyReceiver` to `android:exported="false"`.
+
+### B. Local Wi-Fi Hotspot & Socket Communication
+Android 9 (API level 28) disabled cleartext network traffic by default. Because Mini Militia v4.2.8 utilizes standard local UDP/TCP broadcast packets for local Wi-Fi multiplayer, modern devices block session discovery.
+* Enabled `android:usesCleartextTraffic="true"` within `<application>`.
+
+### C. Ultra-Wide Display Scaling
+Modern smartphone displays utilize 19.5:9 and 20:9 aspect ratios. The legacy metadata `android.max_aspect="2.1"` forced letterboxing (black bars on lateral borders).
+* Increased `android.max_aspect` to `2.4`.
+* Enabled `android:resizeableActivity="true"`.
+
+### D. Runtime Library Resolution
+* Injected `<uses-library android:name="org.apache.http.legacy" android:required="false"/>` to prevent class-not-found exceptions on modern runtimes.
+
+---
+
+## 3. Engineering & Rebuild Pipeline
+
+```mermaid
+flowchart TD
+    A[Target APK: base.apk] --> B[Apktool Decompile]
+    B --> C[Workspace Source Tree]
+    C --> D1[AndroidManifest.xml Modernization]
+    C --> D2[apktool.yml Target SDK Update]
+    C --> D3[Smali Bytecode Adjustments]
+    C --> D4[Resource & Texture Overhaul]
+    D1 & D2 & D3 & D4 --> E[Apktool Binary Assembler]
+    E --> F[Unsigned Binary: dist/app_unaligned.apk]
+    F --> G[Keytool RSA Keystore]
+    G --> H[Jarsigner / Apksigner Cryptographic Sign]
+    H --> I[Verified Release Package]
 ```
 
-### 2. Rebuilding
+---
+
+## 4. Compilation and Signing Runbook
+
+### Prerequisites
+Ubuntu Linux toolchain:
 ```bash
-apktool b decompiled_app -o dist/app_unaligned.apk
+sudo apt update
+sudo apt install default-jdk openjdk-17-jdk apktool aapt -y
 ```
 
-### 3. Signing
+### Step 1: Decompilation
 ```bash
-# Generate key if not already generated
-keytool -genkey -v -keystore my-release-key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias my-alias
-
-# Sign the binary
-jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -keystore my-release-key.jks dist/app_unaligned.apk my-alias
+apktool d base.apk -o decompiled_app
 ```
+
+### Step 2: Binary Reassembly
+Rebuild the workspace into an unaligned APK package:
+```bash
+mkdir -p dist
+apktool b decompiled_app -o dist/MiniMilitia-ModernAndroidCompatibility-1.apk
+```
+
+### Step 3: Cryptographic Signing
+Generate a production Keystore (if not already present) and sign the binary:
+```bash
+# 1. Keystore Generation (2048-bit RSA)
+keytool -genkey -v -keystore minimilitia-release.jks \
+  -keyalg RSA -keysize 2048 -validity 10000 \
+  -alias minimilitia -storepass android123 -keypass android123
+
+# 2. Cryptographic Signature
+jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 \
+  -keystore minimilitia-release.jks -storepass android123 \
+  dist/MiniMilitia-ModernAndroidCompatibility-1.apk minimilitia
+
+# 3. Verification
+jarsigner -verify -verbose -certs dist/MiniMilitia-ModernAndroidCompatibility-1.apk
+```
+
+---
+
+## 5. Releases and Verified Artifacts
+
+| Release Tag | Binary Name | SHA-256 Hash | Target SDK |
+| :--- | :--- | :--- | :--- |
+| **v4.2.8-compat.1** | `MiniMilitia-ModernAndroidCompatibility-1.apk` | `789ad38a4f5810df0f891b909ae5fa55e73f13ec27f62678dbd50be2283e7e21` | Android 13 (API 33) |
+
+Download the verified prebuilt packages directly from [GitHub Releases](https://github.com/MikeeeDeV/apk-project/releases).
+
+---
+
+## 6. Repository Governance & Workflow Standards
+
+This repository enforces strict GitHub engineering standards across all contributions:
+
+1. **Issue Tracking**: Every modification or feature requires an initial GitHub Issue tracking scope, technical approach, and acceptance criteria.
+2. **Dedicated Branching**: Direct pushes to `main` are restricted. All development occurs on isolated branches (`feature/*`, `mod/*`, `fix/*`, `docs/*`).
+3. **Pull Request Protocol**: Merging requires an explicit Pull Request referencing the corresponding issue with `Closes #<id>`.
+4. **Recorded Code Review**: Every Pull Request must record a documented peer code review on GitHub with technical verification before merge approval.
