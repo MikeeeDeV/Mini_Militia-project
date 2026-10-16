@@ -1,0 +1,58 @@
+!!brut.androlib.meta.MetaInfo
+apkFileName: base.apk
+compressionType: false
+doNotCompress:
+- resources.arsc
+- META-INF/android.arch.lifecycle_runtime.version
+- META-INF/com.android.support_animated-vector-drawable.version
+- META-INF/com.android.support_appcompat-v7.version
+- META-INF/com.android.support_recyclerview-v7.version
+- META-INF/com.android.support_support-compat.version
+- META-INF/com.android.support_support-core-ui.version
+- META-INF/com.android.support_support-core-utils.version
+- META-INF/com.android.support_support-fragment.version
+- META-INF/com.android.support_support-media-compat.version
+- META-INF/com.android.support_support-v4.version
+- META-INF/com.android.support_support-vector-drawable.version
+- mp3
+- assets/configuration/uplinkstats.json
+- assets/configuration/weapons.json
+- png
+- assets/unpack/EnvironmentsConfiguration.plist
+isFrameworkApk: false
+packageInfo:
+  forcedPackageId: '127'
+  renameManifestPackage: null
+sdkInfo:
+  minSdkVersion: '16'
+  targetSdkVersion: '26'
+sharedLibrary: false
+sparseResources: false
+unknownFiles:
+  androidsupportmultidexversion.txt: '8'
+  play-services-ads-base.properties: '0'
+  play-services-ads-identifier.properties: '0'
+  play-services-ads-lite.properties: '0'
+  play-services-ads.properties: '0'
+  play-services-auth-api-phone.properties: '0'
+  play-services-auth-base.properties: '0'
+  play-services-auth.properties: '0'
+  play-services-base.properties: '0'
+  play-services-basement.properties: '0'
+  play-services-drive.properties: '0'
+  play-services-games.properties: '0'
+  play-services-gass.properties: '0'
+  play-services-identity.properties: '0'
+  play-services-tasks.properties: '0'
+  com/tapjoy/res/countdown_image.png: '8'
+  com/tapjoy/res/tj_close_button.png: '8'
+  js/closebutton.html: '8'
+  js/mraid.js: '8'
+usesFramework:
+  ids:
+  - 1
+  tag: null
+version: 2.7.0-dirty
+versionInfo:
+  versionCode: '265'
+  versionName: 4.2.8

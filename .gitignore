@@ -1,0 +1,28 @@
+# Android binaries & build outputs
+*.apk
+*.aab
+*.apks
+dist/
+build/
+*.idsig
+
+# Keystores & Signing Keys (Security: NEVER commit keys)
+*.jks
+*.keystore
+*.key
+*.pk8
+*.pem
+
+# Apktool temporary / cache build directories
+decompiled_app/build/
+decompiled_app/dist/
+
+# OS & Editor generated files
+.DS_Store
+Thumbs.db
+.idea/
+*.iml
+.vscode/
+
+# Logs
+*.log

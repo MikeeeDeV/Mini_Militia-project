@@ -1,0 +1,32 @@
+.class public final Lcom/miniclip/mcservices/R;
+.super Ljava/lang/Object;
+.source "R.java"
+
+
+# annotations
+.annotation system Ldalvik/annotation/MemberClasses;
+    value = {
+        Lcom/miniclip/mcservices/R$styleable;,
+        Lcom/miniclip/mcservices/R$style;,
+        Lcom/miniclip/mcservices/R$string;,
+        Lcom/miniclip/mcservices/R$layout;,
+        Lcom/miniclip/mcservices/R$integer;,
+        Lcom/miniclip/mcservices/R$id;,
+        Lcom/miniclip/mcservices/R$drawable;,
+        Lcom/miniclip/mcservices/R$dimen;,
+        Lcom/miniclip/mcservices/R$color;,
+        Lcom/miniclip/mcservices/R$attr;
+    }
+.end annotation
+
+
+# direct methods
+.method public constructor <init>()V
+    .locals 0
+
+    .prologue
+    .line 9
+    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
+
+    return-void
+.end method
