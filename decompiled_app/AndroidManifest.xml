@@ -8,12 +8,13 @@
     <uses-permission android:name="com.android.vending.CHECK_LICENSE"/>
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
-    <application android:allowBackup="false" android:hardwareAccelerated="true" android:icon="@mipmap/icon" android:isGame="true" android:label="@string/app_name" android:name="android.support.multidex.MultiDexApplication" android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen">
+    <application android:allowBackup="false" android:hardwareAccelerated="true" android:icon="@mipmap/icon" android:isGame="true" android:label="@string/app_name" android:name="android.support.multidex.MultiDexApplication" android:resizeableActivity="true" android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" android:usesCleartextTraffic="true">
+        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
         <meta-data android:name="com.google.android.gms.games.APP_ID" android:value="@string/app_id"/>
         <meta-data android:name="com.google.android.gms.appstate.APP_ID" android:value="@string/app_id"/>
         <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version"/>
-        <meta-data android:name="android.max_aspect" android:value="2.1"/>
-        <activity android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize" android:hardwareAccelerated="true" android:label="@string/app_name" android:name="com.appsomniacs.da2.MiniMilitiaActivity" android:screenOrientation="sensorLandscape" android:showAsAction="never" android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
+        <meta-data android:name="android.max_aspect" android:value="2.4"/>
+        <activity android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize" android:exported="true" android:hardwareAccelerated="true" android:label="@string/app_name" android:name="com.appsomniacs.da2.MiniMilitiaActivity" android:screenOrientation="sensorLandscape" android:showAsAction="never" android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
             <intent-filter android:label="@string/app_name">
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -24,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity android:configChanges="keyboardHidden|orientation|screenSize" android:name="com.mopub.common.privacy.ConsentDialogActivity"/>
-        <activity android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize" android:label="@string/app_name" android:name="com.appsomniacs.da2.DA2Activity" android:noHistory="true" android:screenOrientation="sensorLandscape" android:showAsAction="never" android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
+        <activity android:configChanges="keyboardHidden|orientation|screenSize|smallestScreenSize" android:exported="true" android:label="@string/app_name" android:name="com.appsomniacs.da2.DA2Activity" android:noHistory="true" android:screenOrientation="sensorLandscape" android:showAsAction="never" android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -50,7 +51,7 @@
                 <action android:name="com.android.vending.INSTALL_REFERRER"/>
             </intent-filter>
         </receiver>
-        <receiver android:name="com.tapjoy.TapjoyReceiver"/>
+        <receiver android:exported="false" android:name="com.tapjoy.TapjoyReceiver"/>
         <activity android:configChanges="orientation|screenSize" android:name="com.fyber.ads.ofw.OfferWallActivity"/>
         <activity android:configChanges="orientation|screenSize" android:hardwareAccelerated="true" android:name="com.fyber.ads.videos.RewardedVideoActivity"/>
         <activity android:configChanges="orientation|screenSize" android:name="com.fyber.ads.interstitials.InterstitialActivity"/>
