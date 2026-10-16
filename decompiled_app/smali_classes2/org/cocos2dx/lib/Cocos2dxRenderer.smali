@@ -28,7 +28,7 @@
 
     .prologue
     .line 39
-    const-wide/32 v0, 0xfe502a
+    const-wide/32 v0, 0x7f2815
 
     sput-wide v0, Lorg/cocos2dx/lib/Cocos2dxRenderer;->sAnimationInterval:J
 
@@ -233,6 +233,8 @@
     .prologue
     .line 94
     invoke-static {}, Lorg/cocos2dx/lib/Cocos2dxRenderer;->nativeRender()V
+
+    invoke-static {}, Lcom/appsomniacs/da2/FpsOverlay;->onFrame()V
 
     .line 108
     return-void

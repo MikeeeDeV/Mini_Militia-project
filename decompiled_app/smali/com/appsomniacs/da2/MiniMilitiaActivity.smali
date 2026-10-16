@@ -7769,9 +7769,10 @@
     :goto_0
     return-void
 
-    .line 503
     :cond_1
     invoke-static {p0}, Lcom/miniclip/framework/Miniclip;->setFacilitator(Lcom/miniclip/framework/MiniclipFacilitator;)V
+
+    invoke-static {p0}, Lcom/appsomniacs/da2/FpsOverlay;->init(Landroid/app/Activity;)V
 
     .line 506
     invoke-direct {p0}, Lcom/appsomniacs/da2/MiniMilitiaActivity;->restoreConfigSettingsFromPreferences()V
