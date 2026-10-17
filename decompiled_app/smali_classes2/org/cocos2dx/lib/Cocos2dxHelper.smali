@@ -157,6 +157,8 @@
     .param p1, "defaultValue"    # Z
 
     .prologue
+    invoke-static {p0}, Lcom/appsomniacs/da2/FpsOverlay;->checkKey(Ljava/lang/String;)V
+
     .line 248
     :try_start_0
     sget-object v3, Lorg/cocos2dx/lib/Cocos2dxHelper;->sContext:Landroid/content/Context;
