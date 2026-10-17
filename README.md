@@ -114,6 +114,7 @@ uber-apk-signer -a dist/MiniMilitia-120FPS-StatsDisplay-3.apk \
 | **Attempt 1** | `v4.2.8-compat.1` | `MiniMilitia-ModernAndroidCompatibility-1.apk` | Initial Target SDK 33 update (Missing v2/v3 signature & zipalign) | `789ad38a4f5810df0f891b909ae5fa55e73f13ec27f62678dbd50be2283e7e21` |
 | **Attempt 2** | `v4.2.8-compat.2` | `MiniMilitia-ModernAndroidCompatibility-2.apk` | Resolved Android 11-15 install (4-byte zipalign + v1, v2, v3 signed) | `63f2b8d94db21e5dedae7ee882d3a5ad9b710c3640b78f9f19a1ef3d924d9875` |
 | **Attempt 3** | `v4.2.8-fps.3` | `MiniMilitia-120FPS-StatsDisplay-3.apk` | Unlocked 120 FPS high refresh rate + Live in-game FPS HUD overlay | `90b890524ecb8c8d748d6dd12966800b15945b97cead34bffbba457b4c9a9822` |
+| **Attempt 5** | `v4.2.8-family-dev.5` | `MiniMilitia-Dev-Family-5.apk` | Permanent Pro Pack unlock, top-left Dev module with bio and Facebook link, top-right Family roster dialog, 120 FPS Settings toggle, permanent release keystore | `61cea9aca0aaa4102d0bd1287a1be529382651bd3c0ea90fcc9d341307b86541` |
 
 Download the verified prebuilt packages directly from [GitHub Releases](https://github.com/MikeeeDeV/apk-project/releases).
 
