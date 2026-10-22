@@ -116,29 +116,40 @@ uber-apk-signer -a dist/MiniMilitia-120FPS-StatsDisplay-3.apk \
 | **Attempt 3** | `v4.2.8-fps.3` | `MiniMilitia-120FPS-StatsDisplay-3.apk` | Unlocked 120 FPS high refresh rate + Live in-game FPS HUD overlay | `90b890524ecb8c8d748d6dd12966800b15945b97cead34bffbba457b4c9a9822` |
 | **Attempt 5** | `v4.2.8-family-dev.5` | `MiniMilitia-Dev-Family-5.apk` | Permanent Pro Pack unlock, top-left Dev module with bio and Facebook link, top-right Family roster dialog, 120 FPS Settings toggle, permanent release keystore | `61cea9aca0aaa4102d0bd1287a1be529382651bd3c0ea90fcc9d341307b86541` |
 
-Download the verified prebuilt packages directly from [GitHub Releases](https://github.com/MikeeeDeV/apk-project/releases).
+Download the verified prebuilt packages directly from [GitHub Releases](https://github.com/MikeeeDeV/Mini_Militia-project/releases).
 
 ---
 
-## 6. Open-Source LAN Remake (Catacombs Edition)
+## 6. Automated Native Engine Patcher & One-Click Deploy
 
-A 100% open-source, easily customizable recreation of Mini Militia (Doodle Army 2) built from extracted APK assets, designed for **instant local multiplayer (LAN / Wi-Fi Hotspot)** across PC, Android, and iOS browsers.
+The repository includes a production-grade automated pipeline for patching ARMv7 native game logic and directly deploying to connected Android hardware:
 
-### Features
-* **Zero Compilation Barrier**: Connect friends immediately over local Wi-Fi / Hotspot via browser at `http://<LAN-IP>:3000`.
-* **Authentic Physics & Controls**: Jetpack flight propulsion, dual-stick touch controls for mobile, and mouse/keyboard for desktop.
-* **Catacombs Map**: Authentic collision geometry and spawn points parsed directly from `11catacombs_new.tmx`.
-* **Authentic Audio & Textures**: Sliced weapon sprites (AK-47, Shotgun, Sniper, SMAW Rocket, Uzi, Desert Eagle, Frag Grenades) and 111 authentic audio effects extracted from `da2sound16.ckb`.
-* **Complete Moddability**: All weapons (`remake/config/weapons.json`) and physics (`remake/config/game_config.json`) stored in plain JSON, with a live in-game Modding Drawer (`⚙️`).
-* **Godot 4 Architecture**: Complete 2D project with GDScripts included in `remake/godot_project/`.
-
-### Runbook
-```bash
-cd remake
-npm install
-npm start
+### Configuration (`mod_config.json`)
+Toggle any native capability via standard boolean keys:
+```json
+{
+  "unlocked_propack": false,
+  "infinite_flying_power": false,
+  "dual_wield_any_gun": false,
+  "laser_sight_all_weapons": false,
+  "unlimited_ammo": false,
+  "unlimited_clip": false,
+  "instant_reload": false,
+  "game_run_in_background": false,
+  "anti_gravity": false
+}
 ```
-For complete customization instructions, see the [Modding Guide](remake/MODDING_GUIDE.md).
+
+### One-Click Build & Deploy
+Execute the end-to-end automation pipeline:
+```bash
+python3 scripts/build_and_deploy_apk.py
+```
+This script automatically:
+1. Applies binary patches to `decompiled_app/lib/armeabi-v7a/libcocos2dcpp.so` idempotently from pristine backup.
+2. Reassembles the APK using Apktool.
+3. 4-byte aligns and signs with `minimilitia-release.jks`.
+4. Installs the APK directly to connected Android devices via ADB and launches the game on screen.
 
 ---
 
