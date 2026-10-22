@@ -1,0 +1,11 @@
+{
+  "unlocked_propack": true,
+  "infinite_flying_power": true,
+  "dual_wield_any_gun": true,
+  "laser_sight_all_weapons": true,
+  "unlimited_ammo": false,
+  "unlimited_clip": false,
+  "instant_reload": false,
+  "game_run_in_background": true,
+  "anti_gravity": false
+}
