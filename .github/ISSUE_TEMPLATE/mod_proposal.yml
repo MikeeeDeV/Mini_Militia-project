@@ -1,0 +1,69 @@
+name: "🎯 Gameplay Mod Proposal"
+description: "Propose a new in-game modification, native engine toggle, or bytecode patch"
+title: "mod: [Short description of proposed mod]"
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template to propose new gameplay mods or engine patches for inclusion in `mod_config.json` and `scripts/patch_native_engine.py`.
+
+  - type: input
+    id: mod_name
+    attributes:
+      label: Mod Identifier Name
+      description: "Proposed key in mod_config.json (snake_case)"
+      placeholder: "e.g., unlimited_grenades, laser_sight_all_weapons, high_jump"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: patch_type
+    attributes:
+      label: Patch Mechanism
+      description: "How is this modification implemented technically?"
+      options:
+        - "Native C++ ARMv7 Hex Patch (libcocos2dcpp.so)"
+        - "Smali Bytecode Modification"
+        - "XML Resource / Asset Replacement"
+        - "Java / Dalvik Hook"
+        - "Combination / Undetermined"
+    validations:
+      required: true
+
+  - type: textarea
+    id: gameplay_impact
+    attributes:
+      label: Gameplay & Functional Impact
+      description: "Describe how this mod changes gameplay or visual mechanics."
+      placeholder: "e.g., Eliminates reload time for sniper rifle or removes gravity effect on player avatars."
+    validations:
+      required: true
+
+  - type: textarea
+    id: technical_details
+    attributes:
+      label: Technical Offsets / Smali Signatures
+      description: "Provide hex offsets, disassembled ARM instructions, or smali class references if known."
+      render: shell
+      placeholder: |
+        File: libcocos2dcpp.so
+        Function: Player::update(float)
+        Offset: 0x004A12BC
+        Original: 00 20 A0 E3
+        Patched:  01 20 A0 E3
+    validations:
+      required: false
+
+  - type: dropdown
+    id: multiplayer_sync
+    attributes:
+      label: Local Wi-Fi Multiplayer Compatibility
+      description: "Will this mod maintain synchronization in local LAN games?"
+      options:
+        - "Client-side only (Visual / Audio - 100% sync safe)"
+        - "Requires all connected LAN players to have the mod"
+        - "Host-authoritative sync"
+        - "Untested / Unknown"
+    validations:
+      required: true

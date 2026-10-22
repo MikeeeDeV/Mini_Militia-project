@@ -1,0 +1,62 @@
+name: Workspace & Script Validation
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate:
+    name: Validate Scripts & Configurations
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Validate Python Scripts Syntax
+        run: |
+          echo "Compiling and validating all Python scripts in scripts/..."
+          python3 -m py_compile scripts/*.py
+          echo "All Python scripts compiled successfully with zero syntax errors."
+
+      - name: Validate JSON Configuration
+        run: |
+          echo "Validating mod_config.json..."
+          python3 -c "
+          import json, sys
+          with open('mod_config.json') as f:
+              data = json.load(f)
+          assert isinstance(data, dict), 'mod_config.json root must be a JSON object'
+          print(f'Successfully validated mod_config.json with {len(data)} configuration keys.')
+          "
+
+      - name: Verify Documentation & Community Standards Presence
+        run: |
+          echo "Verifying presence of GitHub Community Standards files..."
+          required_files=(
+            "README.md"
+            "LICENSE"
+            "CODE_OF_CONDUCT.md"
+            "CONTRIBUTING.md"
+            "SECURITY.md"
+            ".github/pull_request_template.md"
+            ".github/ISSUE_TEMPLATE/bug_report.yml"
+            ".github/ISSUE_TEMPLATE/feature_request.yml"
+            ".github/ISSUE_TEMPLATE/mod_proposal.yml"
+            ".github/ISSUE_TEMPLATE/config.yml"
+          )
+          for f in "${required_files[@]}"; do
+            if [ ! -f "$f" ]; then
+              echo "Error: Required file $f does not exist."
+              exit 1
+            fi
+            echo "Found: $f"
+          done
+          echo "All required community standards files are present."

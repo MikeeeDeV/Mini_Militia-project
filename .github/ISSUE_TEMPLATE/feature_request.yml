@@ -1,0 +1,59 @@
+name: "✨ Feature Request"
+description: "Suggest a new feature, modern Android enhancement, or tooling capability"
+title: "feat: [Short description of proposed feature]"
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Have an idea to make this workspace or modern Mini Militia even better? Let us know below!
+
+  - type: dropdown
+    id: component_type
+    attributes:
+      label: Target Component
+      description: "Which part of the project would this feature touch?"
+      options:
+        - "Native C++ Engine (libcocos2dcpp.so)"
+        - "Smali Dalvik Bytecode"
+        - "Android Manifest & System Configuration"
+        - "Automation & Python Tooling (scripts/)"
+        - "Assets & Textures"
+        - "Documentation / CI Pipeline"
+    validations:
+      required: true
+
+  - type: textarea
+    id: feature_summary
+    attributes:
+      label: Feature Description
+      description: "Clear and concise explanation of what you would like to happen."
+      placeholder: "e.g., Introduce a 90 FPS mode toggle or add dynamic display notch cutout support."
+    validations:
+      required: true
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Problem & Motivation
+      description: "Why is this feature needed or beneficial to players / developers?"
+      placeholder: "Explains the problem solved or the quality-of-life improvement."
+    validations:
+      required: true
+
+  - type: textarea
+    id: technical_approach
+    attributes:
+      label: Technical Implementation Approach
+      description: "Any technical pointers, memory addresses, smali methods, or Python logic?"
+      placeholder: "e.g., Hook DA2Activity.smali or patch display refresh rate in libcocos2dcpp.so."
+    validations:
+      required: false
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: "Any alternative solutions or workarounds you considered."
+    validations:
+      required: false
