@@ -120,7 +120,29 @@ Download the verified prebuilt packages directly from [GitHub Releases](https://
 
 ---
 
-## 6. Repository Governance & Workflow Standards
+## 6. Open-Source LAN Remake (Catacombs Edition)
+
+A 100% open-source, easily customizable recreation of Mini Militia (Doodle Army 2) built from extracted APK assets, designed for **instant local multiplayer (LAN / Wi-Fi Hotspot)** across PC, Android, and iOS browsers.
+
+### Features
+* **Zero Compilation Barrier**: Connect friends immediately over local Wi-Fi / Hotspot via browser at `http://<LAN-IP>:3000`.
+* **Authentic Physics & Controls**: Jetpack flight propulsion, dual-stick touch controls for mobile, and mouse/keyboard for desktop.
+* **Catacombs Map**: Authentic collision geometry and spawn points parsed directly from `11catacombs_new.tmx`.
+* **Authentic Audio & Textures**: Sliced weapon sprites (AK-47, Shotgun, Sniper, SMAW Rocket, Uzi, Desert Eagle, Frag Grenades) and 111 authentic audio effects extracted from `da2sound16.ckb`.
+* **Complete Moddability**: All weapons (`remake/config/weapons.json`) and physics (`remake/config/game_config.json`) stored in plain JSON, with a live in-game Modding Drawer (`⚙️`).
+* **Godot 4 Architecture**: Complete 2D project with GDScripts included in `remake/godot_project/`.
+
+### Runbook
+```bash
+cd remake
+npm install
+npm start
+```
+For complete customization instructions, see the [Modding Guide](remake/MODDING_GUIDE.md).
+
+---
+
+## 7. Repository Governance & Workflow Standards
 
 This repository enforces strict GitHub engineering standards across all contributions:
 
@@ -128,3 +150,4 @@ This repository enforces strict GitHub engineering standards across all contribu
 2. **Dedicated Branching**: Direct pushes to `main` are restricted. All development occurs on isolated branches (`feature/*`, `mod/*`, `fix/*`, `docs/*`).
 3. **Pull Request Protocol**: Merging requires an explicit Pull Request referencing the corresponding issue with `Closes #<id>`.
 4. **Recorded Code Review**: Every Pull Request must record a documented peer code review on GitHub with technical verification before merge approval.
+
