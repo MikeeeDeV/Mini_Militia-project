@@ -200,4 +200,5 @@ We are committed to maintaining secure engineering tooling. If you uncover a vul
 
 - **Trademark & Copyright Notice**: "Doodle Army 2: Mini Militia" and all associated visual, audio, and compiled game assets are the registered trademarks and intellectual property of Appsomniacs LLC / Miniclip SA.
 - **Educational Scope**: This repository is an independent open-source research and engineering effort created exclusively for software preservation, interoperability analysis, and educational study.
+- **Disclaimer**: For full legal and research scope details, see [DISCLAIMER.md](DISCLAIMER.md).
 - **License**: All original automation scripts, configuration files, and documentation created in this workspace are licensed under the [MIT License](LICENSE).

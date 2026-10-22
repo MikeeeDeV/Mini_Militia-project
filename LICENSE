@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2026 MikeeeDeV & Project Contributors
+Copyright (c) 2026 MikeeeDeV
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,16 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-### Intellectual Property & Educational Research Disclaimer
-
-1. **Third-Party Trademarks & Assets**:
-   "Doodle Army 2: Mini Militia" and associated logos, visual designs, audio assets, and original compiled game binaries are the intellectual property and registered trademarks of Appsomniacs LLC / Miniclip SA.
-
-2. **Scope of License**:
-   The MIT License above applies strictly to the original engineering tooling, automation scripts (`scripts/`), configuration files, documentation, and structural patch methodologies created by the maintainers of this repository.
-
-3. **Non-Commercial & Educational Intent**:
-   This workspace is maintained exclusively for educational research, software preservation, Android operating system compatibility engineering, and reverse-engineering study. No commercial exploitation, endorsement, or affiliation with the original rights holders is expressed or implied.
