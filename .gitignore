@@ -5,6 +5,7 @@
 dist/
 build/
 *.idsig
+*.so.orig
 
 # Keystores & Signing Keys (Security: NEVER commit keys)
 *.jks
