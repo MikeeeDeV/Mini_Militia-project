@@ -24,3 +24,9 @@ This project follows a strict GitHub workflow for all modifications, additions, 
 4. **Recorded Code Review**:
    - Every Pull Request must have a formal code review recorded on GitHub.
    - Post an approving review with constructive technical feedback and analysis before merging.
+
+## Execution Style
+
+- **Immediate Autonomous Action**:
+  - When given a task or request, start working immediately without asking unnecessary clarifying questions.
+  - Make reasonable, best-practice assumptions and execute the task end-to-end. Only ask if there is a fatal blocker or destructive action requiring explicit confirmation.
