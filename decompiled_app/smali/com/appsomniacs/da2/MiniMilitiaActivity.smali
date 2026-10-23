@@ -7774,6 +7774,8 @@
 
     invoke-static {p0}, Lcom/appsomniacs/da2/FpsOverlay;->init(Landroid/app/Activity;)V
 
+    invoke-static {p0}, Lcom/appsomniacs/da2/EditionDialog;->show(Landroid/app/Activity;)V
+
     .line 506
     invoke-direct {p0}, Lcom/appsomniacs/da2/MiniMilitiaActivity;->restoreConfigSettingsFromPreferences()V
 
