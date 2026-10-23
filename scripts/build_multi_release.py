@@ -7,10 +7,13 @@ Features:
   * com.appsomniacs.da2.flight (Flight Pro Edition)
   * com.appsomniacs.da2.tactical (Tactical Combat Edition)
   * com.appsomniacs.da2.godmode (Ultra GodMode Edition)
-- Custom launcher app icons for each edition across all Android mipmap densities (ldpi to xxxhdpi).
+- Full Adaptive Icon support (Android 8 through Android 15):
+  * ic_foreground.png and ic_background.png across all densities (108dp base)
+  * Legacy icon.png across all densities (ldpi to xxxhdpi)
+- Dynamic in-game startup dialog box (EditionDialog) and Toast notification confirming active edition.
 - Distinct launcher application titles (e.g., 'Mini Militia (Flight Pro)').
 - Full native engine patching, APK reassembly, 4-byte zipalign, and v1-v3 cryptographic signing.
-- Automated ADB batch deployment directly to connected Android devices.
+- Automated ADB batch deployment with clean cache reset to ensure immediate icon appearance.
 """
 
 import os
@@ -37,13 +40,21 @@ KEYSTORE = os.path.join(BASE_DIR, "minimilitia-release.jks")
 UBER_SIGNER = "/home/mohamed-ayman/.local/bin/uber-apk-signer"
 ICONS_DIR = os.path.join(BASE_DIR, "assets", "icons")
 
-MIPMAP_SPECS = [
+LEGACY_SPECS = [
     ("mipmap-ldpi-v4", (36, 36)),
     ("mipmap-mdpi-v4", (48, 48)),
     ("mipmap-hdpi-v4", (72, 72)),
     ("mipmap-xhdpi-v4", (96, 96)),
     ("mipmap-xxhdpi-v4", (144, 144)),
     ("mipmap-xxxhdpi-v4", (192, 192)),
+]
+
+ADAPTIVE_SPECS = [
+    ("mipmap-mdpi-v4", 108),
+    ("mipmap-hdpi-v4", 162),
+    ("mipmap-xhdpi-v4", 216),
+    ("mipmap-xxhdpi-v4", 324),
+    ("mipmap-xxxhdpi-v4", 432),
 ]
 
 EDITIONS = [
@@ -54,6 +65,7 @@ EDITIONS = [
         "rename_manifest": None,
         "app_label": "Mini Militia",
         "icon_file": os.path.join(ICONS_DIR, "vanilla.png"),
+        "bg_color": (24, 38, 22, 255),
         "apk_name": "MiniMilitia-v4.2.8-Vanilla-Clean.apk",
         "description": "100% Pure vanilla gameplay with zero gameplay mods. Preserves 120 FPS high refresh pacing and Android 12-15 compatibility.",
         "config": {
@@ -75,6 +87,7 @@ EDITIONS = [
         "rename_manifest": "com.appsomniacs.da2.flight",
         "app_label": "Mini Militia (Flight Pro)",
         "icon_file": os.path.join(ICONS_DIR, "flight.png"),
+        "bg_color": (6, 32, 54, 255),
         "apk_name": "MiniMilitia-v4.2.8-Flight-Pro.apk",
         "description": "Unlocked Pro Pack + Infinite Jetpack Boost (Fly Power) + Background keepalive. Balanced weapon physics with unlimited aerial mobility.",
         "config": {
@@ -96,6 +109,7 @@ EDITIONS = [
         "rename_manifest": "com.appsomniacs.da2.tactical",
         "app_label": "Mini Militia (Tactical)",
         "icon_file": os.path.join(ICONS_DIR, "tactical.png"),
+        "bg_color": (45, 10, 10, 255),
         "apk_name": "MiniMilitia-v4.2.8-Tactical-Combat.apk",
         "description": "Unlocked Pro Pack + Infinite Fly + Dual Wield Any Gun + Laser Sights on All Weapons + Instant Reload. Maximum gunplay flexibility with finite ammo.",
         "config": {
@@ -117,6 +131,7 @@ EDITIONS = [
         "rename_manifest": "com.appsomniacs.da2.godmode",
         "app_label": "Mini Militia (GodMode)",
         "icon_file": os.path.join(ICONS_DIR, "godmode.png"),
+        "bg_color": (35, 10, 50, 255),
         "apk_name": "MiniMilitia-v4.2.8-Ultra-GodMode.apk",
         "description": "The Ultimate Full Arsenal: Unlocked Pro Pack, Infinite Flying, Dual Wield Any Gun, Laser Sights, Unlimited Ammo, Unlimited Clip, Instant Reload (Anti-Gravity false).",
         "config": {
@@ -168,14 +183,15 @@ def backup_pristine_files():
     if not os.path.exists(orig_apktool):
         shutil.copy2(APKTOOL_YML_PATH, orig_apktool)
 
-    # 4. mipmap icons
-    for folder, _ in MIPMAP_SPECS:
-        icon_path = os.path.join(APP_DIR, "res", folder, "icon.png")
+    # 4. legacy & adaptive icons
+    for folder, _ in LEGACY_SPECS:
         backup_folder = os.path.join(BACKUP_DIR, folder)
         os.makedirs(backup_folder, exist_ok=True)
-        backup_icon = os.path.join(backup_folder, "icon.png")
-        if os.path.exists(icon_path) and not os.path.exists(backup_icon):
-            shutil.copy2(icon_path, backup_icon)
+        for name in ["icon.png", "ic_foreground.png", "ic_background.png"]:
+            src = os.path.join(APP_DIR, "res", folder, name)
+            dst = os.path.join(backup_folder, name)
+            if os.path.exists(src) and not os.path.exists(dst):
+                shutil.copy2(src, dst)
 
 def apply_edition_customizations(edition):
     # 1. Update mod_config.json
@@ -212,15 +228,37 @@ def apply_edition_customizations(edition):
     with open(APKTOOL_YML_PATH, "w", encoding="utf-8") as f:
         f.write(apktool_content)
 
-    # 5. Inject custom icons
+    # 5. Inject custom icons (Legacy + Adaptive)
     if os.path.exists(edition["icon_file"]):
         master_img = Image.open(edition["icon_file"]).convert("RGBA")
-        for folder, size in MIPMAP_SPECS:
+        bg_color = edition["bg_color"]
+
+        # A. Legacy icon.png
+        for folder, size in LEGACY_SPECS:
             dest_dir = os.path.join(APP_DIR, "res", folder)
             os.makedirs(dest_dir, exist_ok=True)
             resized = master_img.resize(size, Image.Resampling.LANCZOS)
             dest_path = os.path.join(dest_dir, "icon.png")
             resized.save(dest_path, "PNG")
+
+        # B. Adaptive ic_foreground.png & ic_background.png
+        for folder, dim in ADAPTIVE_SPECS:
+            dest_dir = os.path.join(APP_DIR, "res", folder)
+            os.makedirs(dest_dir, exist_ok=True)
+
+            # Background: solid themed background
+            bg_img = Image.new("RGBA", (dim, dim), bg_color)
+            bg_path = os.path.join(dest_dir, "ic_background.png")
+            bg_img.save(bg_path, "PNG")
+
+            # Foreground: transparent canvas with icon scaled to 78% centered
+            fg_img = Image.new("RGBA", (dim, dim), (0, 0, 0, 0))
+            content_size = int(dim * 0.78)
+            offset = (dim - content_size) // 2
+            scaled_content = master_img.resize((content_size, content_size), Image.Resampling.LANCZOS)
+            fg_img.paste(scaled_content, (offset, offset), scaled_content)
+            fg_path = os.path.join(dest_dir, "ic_foreground.png")
+            fg_img.save(fg_path, "PNG")
 
 def restore_pristine_files():
     print("\n>> Restoring all pristine resources and configuration files...")
@@ -239,11 +277,14 @@ def restore_pristine_files():
         shutil.copy2(orig_apktool, APKTOOL_YML_PATH)
 
     # 4. Icons
-    for folder, _ in MIPMAP_SPECS:
-        orig_icon = os.path.join(BACKUP_DIR, folder, "icon.png")
-        dest_icon = os.path.join(APP_DIR, "res", folder, "icon.png")
-        if os.path.exists(orig_icon):
-            shutil.copy2(orig_icon, dest_icon)
+    for folder, _ in LEGACY_SPECS:
+        backup_folder = os.path.join(BACKUP_DIR, folder)
+        dest_dir = os.path.join(APP_DIR, "res", folder)
+        for name in ["icon.png", "ic_foreground.png", "ic_background.png"]:
+            src = os.path.join(backup_folder, name)
+            dst = os.path.join(dest_dir, name)
+            if os.path.exists(src):
+                shutil.copy2(src, dst)
 
     # 5. mod_config.json
     with open(CONFIG_PATH, "w") as f:
@@ -263,12 +304,13 @@ def deploy_to_adb(build_results):
     for b in build_results:
         pkg = b["package"]
         apk_path = b["path"]
-        print(f"Installing {b['name']} ({pkg})...")
+        print(f"Deploying {b['name']} ({pkg})...")
+
+        # Uninstall previous build first to completely flush Android launcher icon cache
+        subprocess.run(f"adb uninstall {pkg}", shell=True, capture_output=True)
+
+        # Install new signed build
         install_res = subprocess.run(f'adb install -r "{apk_path}"', shell=True, capture_output=True, text=True)
-        if "INSTALL_FAILED_UPDATE_INCOMPATIBLE" in install_res.stdout or "INSTALL_FAILED_UPDATE_INCOMPATIBLE" in install_res.stderr:
-            print(f"  Existing signature conflict on {pkg}. Reinstalling cleanly...")
-            subprocess.run(f"adb uninstall {pkg}", shell=True)
-            install_res = subprocess.run(f'adb install -r "{apk_path}"', shell=True, capture_output=True, text=True)
 
         if "Success" in install_res.stdout:
             print(f"  ✓ Successfully installed: {b['name']} ({pkg})")
