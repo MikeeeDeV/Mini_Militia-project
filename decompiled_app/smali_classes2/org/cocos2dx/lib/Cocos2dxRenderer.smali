@@ -149,8 +149,6 @@
 
     .prologue
     .line 137
-    invoke-static {}, Lcom/appsomniacs/da2/FpsOverlay;->onGamePlayMove()V
-
     invoke-static {p1, p2, p3}, Lorg/cocos2dx/lib/Cocos2dxRenderer;->nativeTouchesMove([I[F[F)V
 
     .line 138
@@ -164,8 +162,6 @@
     .param p3, "pY"    # F
 
     .prologue
-    invoke-static {p2, p3}, Lcom/appsomniacs/da2/FpsOverlay;->checkScreenTouch(FF)V
-
     .line 129
     invoke-static {p1, p2, p3}, Lorg/cocos2dx/lib/Cocos2dxRenderer;->nativeTouchesEnd(IFF)V
 
