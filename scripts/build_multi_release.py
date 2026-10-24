@@ -6,7 +6,7 @@ Features:
   * com.appsomniacs.da2 (Vanilla Clean)
   * com.appsomniacs.da2.flight (Flight Pro Edition)
   * com.appsomniacs.da2.tactical (Tactical Combat Edition)
-  * com.appsomniacs.da2.godmode (Ultra GodMode Edition)
+  * com.appsomniacs.da2.ultimate (Ultra Arsenal Edition)
 - Full Adaptive Icon support (Android 8 through Android 15):
   * ic_foreground.png and ic_background.png across all densities (108dp base)
   * Legacy icon.png across all densities (ldpi to xxxhdpi)
@@ -125,14 +125,14 @@ EDITIONS = [
         }
     },
     {
-        "id": "ultra-godmode",
-        "name": "Ultra GodMode Edition",
-        "package": "com.appsomniacs.da2.godmode",
-        "rename_manifest": "com.appsomniacs.da2.godmode",
-        "app_label": "Mini Militia (GodMode)",
-        "icon_file": os.path.join(ICONS_DIR, "godmode.png"),
+        "id": "ultra-arsenal",
+        "name": "Ultra Arsenal Edition",
+        "package": "com.appsomniacs.da2.ultimate",
+        "rename_manifest": "com.appsomniacs.da2.ultimate",
+        "app_label": "Mini Militia (Ultimate)",
+        "icon_file": os.path.join(ICONS_DIR, "ultimate.png"),
         "bg_color": (35, 10, 50, 255),
-        "apk_name": "MiniMilitia-v4.2.8-Ultra-GodMode.apk",
+        "apk_name": "MiniMilitia-v4.2.8-Ultra-Arsenal.apk",
         "description": "The Ultimate Full Arsenal: Unlocked Pro Pack, Infinite Flying, Dual Wield Any Gun, Laser Sights, Unlimited Ammo, Unlimited Clip, Instant Reload (Anti-Gravity false).",
         "config": {
             "unlocked_propack": True,
@@ -300,7 +300,9 @@ def deploy_to_adb(build_results):
         print(">> No Android hardware detected via ADB. Skipping automated installation.")
         return
 
-    print(">> Android hardware connected! Commencing multi-edition side-by-side deployment...\n")
+    # Uninstall legacy godmode package if present on device
+    subprocess.run("adb uninstall com.appsomniacs.da2.godmode", shell=True, capture_output=True)
+
     for b in build_results:
         pkg = b["package"]
         apk_path = b["path"]

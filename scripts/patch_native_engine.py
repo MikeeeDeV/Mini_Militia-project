@@ -25,7 +25,12 @@ PATCH_REGISTRY = {
         (0x5a4cdc, "a801d0e5", "0100a0e3")
     ],
     "laser_sight_all_weapons": [
-        (0x5a7ef4, "030041e2070050e3", "0100a0e31eff2fe1")
+        # 1. WeaponFactory::isLaserSight -> return true for all weapons (mov r0, #1; bx lr)
+        (0x5a7ef4, "030041e2070050e3", "0100a0e31eff2fe1"),
+        # 2. Stage::init -> bypass store-purchased 'lasersight' check, always attach LaserSight to map layer (nop bne)
+        (0x58a598, "0700001a", "0000a0e1"),
+        # 3. Stage::onWeaponChange -> prevent laser sight node from being hidden on weapon switch (nop bne)
+        (0x58d460, "0500001a", "0000a0e1")
     ],
     "unlimited_ammo": [
         (0x5a4718, "831fa0e3f10090e1000050e30000a0d3", "831fa0e30420a0e3b12080e1f10090e1")

@@ -94,7 +94,7 @@
     goto :show_dialog
 
     :cond_2
-    const-string v4, "godmode"
+    const-string v4, "ultimate"
 
     invoke-virtual {v1, v4}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
 
@@ -102,9 +102,9 @@
 
     if-eqz v4, :cond_3
 
-    const-string v2, "⚡ Mini Militia (Ultra GodMode)"
+    const-string v2, "⚡ Mini Militia (Ultra Arsenal)"
 
-    const-string v3, "Ultra GodMode Edition Active!\n\n• Unlocked Pro Pack\n• Infinite Jetpack Boost\n• Dual Wield Any Weapon\n• Laser Sight on All Weapons\n• Unlimited Ammo & Clip\n• Instant Reload\n• Background Keepalive"
+    const-string v3, "Ultra Arsenal Edition Active!\n\n• Unlocked Pro Pack\n• Infinite Jetpack Boost\n• Dual Wield Any Weapon\n• Laser Sight on All Weapons\n• Unlimited Ammo & Clip\n• Instant Reload\n• Background Keepalive"
 
     goto :show_dialog
 
